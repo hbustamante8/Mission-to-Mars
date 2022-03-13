@@ -13,7 +13,7 @@ def scrape_all():
 #set executable path and set up the URL
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
-
+    news_title, news_paragraph = mars_news(browser)
     data = {
         "news_title": news_title,
         "news_paragraph": news_paragraph,
@@ -41,7 +41,6 @@ def mars_news(browser):
     try:
 #assign the title and summary text to variables we'll reference later. In the next empty cell, let's begin our scraping.
         slide_elem = news_soup.select_one('div.list_text')
-        slide_elem.find('div', class_='content_title')
 
 #just get the text from this scarpe, extra HTML is not necessary. Use the parent element to find the first tag and save it.
         news_title = slide_elem.find('div', class_='content_title').get_text()
@@ -49,9 +48,9 @@ def mars_news(browser):
     except AttributeError:
         return None, None
 #Use the parent element to find the paragrpah text
-        news_p = slide_elem.find('div', class_='article_teaser_body').get_text()
+    news_p = slide_elem.find('div', class_='article_teaser_body').get_text()
     
-    return news_title, news_p
+    return news_title,news_p
 
 # ### Featured Images
 def featured_image(browser):
